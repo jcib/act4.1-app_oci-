@@ -1,0 +1,41 @@
+{# templates/list/index.html.twig #} {% extends 'base.html.twig' %} {% block
+body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card bg-light mb-3 mt-3">
+        <div class="card-body">
+          <div class="card-header">Troba el millor oci per a tu!</div>
+          {% if app.user != null %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="card bg-light mb-3 mt-3">
+        <div class="card-body">
+          {{ form_start(form) }}
+          {{ form_widget(form) }}
+          {{ form_end(form) }}
+
+          {% for film in content %}
+            <h5><li>
+                Nom: {{ film.name }} 
+                | Gènere: {{ film.genero }} 
+                | Descripció: {{ film.descripcion }}   
+            <h5></li>
+
+          {% endfor %}
+
+          {% if app.user != null %}
+          {% endif %}
+        </div>
+      </div>
+  
+      {% if app.user == null %}
+      <a href="{{ path('app_login') }}" class="btn btn-info">
+        Ara mateix no has fet login. No podràs desar les teves preferències.</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
