@@ -135,7 +135,7 @@ class User implements UserInterface
         return $this->name;
     }
 
-    public function getOciPreferit(): ?string
+    public function getoci_preferit(): ?string
     {
         return $this->oci_preferit;
     }
@@ -147,7 +147,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getLocalitzacioPreferida(): ?string
+    public function getlocalitzacio_preferida(): ?string
     {
         return $this->localitzacio_preferida;
     }
