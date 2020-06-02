@@ -16,14 +16,15 @@ body %}
           {{ form_widget(form) }}
           {{ form_end(form) }}
 
-          {% for film in content %}
-            <h5><li>
-                Nom: {{ film.name }} 
-                | Gènere: {{ film.genero }} 
-                | Descripció: {{ film.descripcion }}   
-            <h5></li>
-
-          {% endfor %}
+          {% if content != null %}
+            {% for film in content %}
+              <h5><li>
+                  Nom: {{ film.name | film.title }} 
+                  | Gènere: {{ film.genero }} 
+                  | Descripció: {{ film.descripcion }}   
+              <h5></li>
+            {% endfor %}
+          {% endif %}
 
           {% if app.user != null %}
           {% endif %}

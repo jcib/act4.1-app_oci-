@@ -20,15 +20,14 @@ class ListController extends AbstractController
     public function index(Request $request)
     {
         $pref = new Preferencia();
+        $content = array();
 
         $form = $this->createFormBuilder($pref)
             ->add('tipus', ChoiceType::class, [
                 'choices' =>[
                     'Cine' => 'cine',
                     'Llibres' => 'llibres',
-                    'Música' => 'musica',
-                    'Teatre' => 'teatre',
-                ]
+                    'Música' => 'musica'                ]
             ])
             ->add('localitzacio', ChoiceType::class, [
                 'choices' =>[
@@ -46,11 +45,11 @@ class ListController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $tipus_pref = $form['tipus']->getData();
             $localitzacio_pref = $form['localitzacio']->getData();
-
+            
             if($tipus_pref == "cine") {
                 // API de cine creada por nosotros 
                 $client = HttpClient::create();
-                $response = $client->request('GET', 'http://127.0.0.1:8000/api/pelis');
+                $response = $client->request('GET', 'http://127.0.0.1:43253/api/pelis');
                 $content = $response->getContent();
                 $content = $response->toArray();
 
@@ -58,11 +57,37 @@ class ListController extends AbstractController
                     'form' => $form->createView(),
                     'content' => $content
                 ]);
-            }
+            // API externas
+           } else if($tipus_pref == "llibres") {
+                $client = HttpClient::create();
+                $response = $client->request('GET', 'http://127.0.0.1:43253/api/pelis');
+                $content = $response->getContent();
+                $content = $response->toArray();
+
+                return $this->render('list/index.html.twig', [
+                    'form' => $form->createView(),
+                    'content' => $content
+                ]);
+            } else if($tipus_pref == "musica") {
+                $client = HttpClient::create();
+                $response = $client->request('GET', 'https://deezerdevs-deezer.p.rapidapi.com/search?q=eminem', [
+                    'headers' => [
+                        "x-rapidapi-host" => "deezerdevs-deezer.p.rapidapi.com",
+                        "x-rapidapi-key" => "ac81091c7fmsh3487d369d1749f9p16ab36jsn00ff3337a5b3"
+                    ]]);
+                $content = $response->getContent();
+                $content = $response->toArray();
+
+                return $this->render('list/index.html.twig', [
+                    'form' => $form->createView(),
+                    'content' => $content
+                ]);
+            }            
         }
 
         return $this->render('list/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'content' => $content
         ]);
     }
 }
