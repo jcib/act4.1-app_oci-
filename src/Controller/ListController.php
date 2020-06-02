@@ -49,24 +49,24 @@ class ListController extends AbstractController
             if($tipus_pref == "cine") {
                 // API de cine creada por nosotros 
                 $client = HttpClient::create();
-                $response = $client->request('GET', 'http://127.0.0.1:43253/api/pelis');
-                $content = $response->getContent();
-                $content = $response->toArray();
+                $response = $client->request('GET', 'http://127.0.0.1:39261/api/pelis');
+                $content_cine = $response->getContent();
+                $content_cine = $response->toArray();
 
                 return $this->render('list/index.html.twig', [
                     'form' => $form->createView(),
-                    'content' => $content
+                    'content_cine' => $content_cine
                 ]);
             // API externas
            } else if($tipus_pref == "llibres") {
                 $client = HttpClient::create();
-                $response = $client->request('GET', 'http://127.0.0.1:43253/api/pelis');
-                $content = $response->getContent();
-                $content = $response->toArray();
+                $response = $client->request('GET', 'http://127.0.0.1:39261/api/pelis');
+                $content_llibres = $response->getContent();
+                $content_llibres = $response->toArray();
 
                 return $this->render('list/index.html.twig', [
                     'form' => $form->createView(),
-                    'content' => $content
+                    'content_llibres' => $content_llibres
                 ]);
             } else if($tipus_pref == "musica") {
                 $client = HttpClient::create();
@@ -75,12 +75,12 @@ class ListController extends AbstractController
                         "x-rapidapi-host" => "deezerdevs-deezer.p.rapidapi.com",
                         "x-rapidapi-key" => "ac81091c7fmsh3487d369d1749f9p16ab36jsn00ff3337a5b3"
                     ]]);
-                $content = $response->getContent();
-                $content = $response->toArray();
+                $content_musica = $response->getContent();
+                $content_musica = $response->toArray();
 
                 return $this->render('list/index.html.twig', [
                     'form' => $form->createView(),
-                    'content' => $content
+                    'content_musica' => $content_musica
                 ]);
             }            
         }

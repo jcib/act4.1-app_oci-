@@ -16,15 +16,35 @@ body %}
           {{ form_widget(form) }}
           {{ form_end(form) }}
 
-          {% if content != null %}
-            {% for film in content %}
+          {% if content_cine is defined and content_cine is not null %}
+            {% for film in content_cine %}
               <h5><li>
-                  Nom: {{ film.name | film.title }} 
+                  Nom: {{ film.name }} 
                   | Gènere: {{ film.genero }} 
                   | Descripció: {{ film.descripcion }}   
               <h5></li>
             {% endfor %}
           {% endif %}
+
+          {% if content_llibres is defined and content_llibres is not null %}
+            {% for film in content_llibres %}
+              <h5><li>
+                  Nom: {{ film.name }} 
+                  | Gènere: {{ film.genero }} 
+                  | Descripció: {{ film.descripcion }}   
+              <h5></li>
+            {% endfor %}
+          {% endif %}
+
+          {% if content_musica is defined and content_musica is not null %}
+            <h3>Eminem</h3>
+            {% for album in content_musica.data %}
+              <h5><li>
+                  Nom:  {{ album.title }}
+              <h5></li>
+            {% endfor %}
+          {% endif %}
+          
 
           {% if app.user != null %}
           {% endif %}
