@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Preferencia;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +61,7 @@ class ListController extends AbstractController
             // API externas
            } else if($tipus_pref == "llibres") {
                 $client = HttpClient::create();
-                $response = $client->request('GET', 'http://127.0.0.1:39261/api/pelis');
+                $response = $client->request('GET', 'https://www.etnassoft.com/api/v1/get/?id=589&callback=?');
                 $content_llibres = $response->getContent();
                 $content_llibres = $response->toArray();
 
@@ -68,7 +69,7 @@ class ListController extends AbstractController
                     'form' => $form->createView(),
                     'content_llibres' => $content_llibres
                 ]);
-            } else if($tipus_pref == "musica") {
+            } else if ($tipus_pref == "musica") {
                 $client = HttpClient::create();
                 $response = $client->request('GET', 'https://deezerdevs-deezer.p.rapidapi.com/search?q=eminem', [
                     'headers' => [
@@ -82,7 +83,19 @@ class ListController extends AbstractController
                     'form' => $form->createView(),
                     'content_musica' => $content_musica
                 ]);
-            }            
+            }   
+            
+            // Desa preferències si hi està amb login
+            if($this->getUser()){
+                $user = $this->getUser();
+                $user->setOciPreferit($tipus_pref);
+                $user->setLocalitzacioPreferida($localitzacio_pref);
+
+                // Desa
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            }
         }
 
         return $this->render('list/index.html.twig', [

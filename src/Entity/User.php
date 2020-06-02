@@ -36,6 +36,16 @@ class User implements UserInterface
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $oci_preferit;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $localitzacio_preferida;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,6 +128,34 @@ class User implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->name;
+    }
+
+    public function getOciPreferit(): ?string
+    {
+        return $this->oci_preferit;
+    }
+
+    public function setOciPreferit(string $oci_preferit): self
+    {
+        $this->oci_preferit = $oci_preferit;
+
+        return $this;
+    }
+
+    public function getLocalitzacioPreferida(): ?string
+    {
+        return $this->localitzacio_preferida;
+    }
+
+    public function setLocalitzacioPreferida(string $localitzacio_preferida): self
+    {
+        $this->localitzacio_preferida = $localitzacio_preferida;
+
         return $this;
     }
 }
